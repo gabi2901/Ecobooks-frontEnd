@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .bg-custom-orange {
+            background-color: #FFB87C !important;
+            transition: all 0.3s;
+        }
+        .bg-custom-orange:hover {
+            background-color: #E69E66 !important;
+        }
+        .bg-custom-orange:active {
+            background-color: #ffa64d !important;
+            transform: scale(0.98);
+        }
+        .profile-img-card img {
+            filter: grayscale(100%);
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%; 
+            transition: all 0.3s;
+        }
+        .btn-my-books {
+            transition: all 0.3s;
+        }
+        .btn-my-books:hover {
+            background-color: #add8e6 !important;
+            border-color: #add8e6 !important;
+        }
+        .btn-my-books:active {
+            background-color: #add8e6 !important;
+            border-color: #add8e6 !important;
+        }
+        #change-photo, #remove-photo, #add-photo {
+            background: none;
+            border: none;
+            color: #5b60f1;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0;
+            padding: 0.1rem 0;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        #remove-photo {
+            color: #dc3545;
+        }
+        .photo-actions {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 0;
+        }
+        .text-warning {
+            color: #FFB87C !important;
+        }
+        .has-photo {
+            filter: none !important;
+        }
+        .profile-img-card {
+            margin-bottom: 10px;
+        }
+        .photo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="profile-container mt-3 p-4 shadow-lg rounded bg-light">
+
+            
+            <div class="photo-section">
+                <div class="profile-img-card mx-auto position-relative d-flex flex-column align-items-center justify-content-center">
+                    <label for="file-input" class="profile-img-label d-flex flex-column align-items-center justify-content-center w-100 h-100 position-relative">
+                        <img src="Vector.png" alt="Foto de Perfil" id="profile-img">
+                    </label>
+                    <input type="file" accept="image/*" class="d-none" id="file-input">
+                </div>
+                <button id="add-photo">Adicionar Foto</button>
+                <div class="photo-actions" id="photo-actions">
+                    <button id="change-photo">Alterar Foto</button>
+                    <button id="remove-photo">Excluir Foto</button>
+                </div>
+            </div>
+            
+            <div class="profile-info mt-4 text-start">
+                <p><strong>Nome:</strong><br> Kallyny Victória de Souza Amorin </p>
+                <p><strong>Email:</strong><br> kallynyvictoria704@gmail.com</p>
+                <p><strong>Cidade-UF:</strong><br> Petrolina-PE <i class="fas fa-map-marker-alt"></i></p>
+            </div>
+            
+            <a href="minhaestante.html" class="btn btn-outline-dark btn-my-books w-100 mt-3 d-flex justify-content-between align-items-center">
+                <span>Minha estante</span> <i class="fas fa-chevron-right"></i>
+            </a>
+            <button class="btn bg-custom-orange w-100 mt-3 text-white" id="delete-profile">Excluir perfil</button>
+        </div>
+    </div>
+    
+    <script>
+        const defaultImage = "Vector.png";
+        const profileImg = document.getElementById("profile-img");
+        const fileInput = document.getElementById("file-input");
+        const addPhotoBtn = document.getElementById("add-photo");
+        const photoActions = document.getElementById("photo-actions");
+        const changePhotoBtn = document.getElementById("change-photo");
+        const removePhotoBtn = document.getElementById("remove-photo");
+
+        function openFilePicker() {
+            fileInput.value = '';
+            fileInput.click();
+        }
+
+        function resetToDefaultImage() {
+            profileImg.src = defaultImage;
+            profileImg.classList.remove("has-photo");
+            addPhotoBtn.style.display = "block";
+            photoActions.style.display = "none";
+        }
+
+        fileInput.addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImg.src = e.target.result;
+                    profileImg.classList.add("has-photo");
+                    addPhotoBtn.style.display = "none";
+                    photoActions.style.display = "flex";
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        addPhotoBtn.addEventListener("click", openFilePicker);
+        changePhotoBtn.addEventListener("click", openFilePicker);
+        
+        removePhotoBtn.addEventListener("click", function() {
+            if (confirm("Tem certeza que deseja excluir esta foto?")) {
+                resetToDefaultImage();
+            }
+        });
+
+        document.getElementById("delete-profile").addEventListener("click", function() {
+            if (confirm("Tem certeza que deseja excluir seu perfil permanentemente?")) {
+                alert("Perfil excluído com sucesso!");
+                // Redireciona para login.html somente após confirmar
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>
